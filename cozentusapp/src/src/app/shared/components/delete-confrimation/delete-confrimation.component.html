@@ -1,0 +1,14 @@
+<h1 mat-dialog-title>{{ data.title }}</h1>
+<div mat-dialog-content>{{ data.message }}</div>
+<div mat-dialog-actions align="end">
+  <button
+    mat-raised-button
+    color="primary"
+    style="border: 1px solid #000"
+    (click)="confirm()"
+    type="button"
+  >
+    Yes
+  </button>
+  <button mat-button mat-dialog-close>No</button>
+</div>

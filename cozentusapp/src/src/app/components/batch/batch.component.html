@@ -1,0 +1,332 @@
+<div class="">
+  <app-layout></app-layout>
+</div>
+<div
+  class="mat-elevation-z8"
+  style="background: hsl(208, 52%, 94%); height: 89vh; padding: 20px"
+>
+  <h3>Student</h3>
+  <mat-card class="parent">
+    <div class="section">
+      <mat-form-field
+        style="width: 10%; margin-top: 20px; margin-left: 11px"
+        appearance="outline"
+      >
+        <mat-label>Filter</mat-label>
+        <input matInput #input />
+      </mat-form-field>
+      <button
+        (click)="addBatch()"
+        mat-raised-button
+        style="border: 1px solid #000; margin-right: 10px"
+      >
+        Add Batch
+      </button>
+    </div>
+    <table *ngIf="batch.length > 0" class="table table-borderless">
+      <thead>
+        <tr style="background: #d0e4ff">
+          <th scope="col" colspan="1">Action</th>
+          <th scope="col" colspan="1">Batch Code</th>
+          <th scope="col" colspan="1">Batch Name</th>
+          <th scope="col" colspan="1">Batch Start Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container
+          *ngFor="
+            let item of batch | slice : start : end | filter : input.value;
+            let i = index
+          "
+        >
+          <tr style="margin-top: 10px" style="background: #d0e4ff">
+            <td style="display: flex; align-items: center">
+              <button
+                style="
+                  background: #fff;
+                  color: #acc8ff;
+                  border: 2px solid #acc8ff;
+                "
+                (click)="exandRow(i)"
+                mat-mini-fab
+                aria-label="Example icon button with a home icon"
+              >
+                <mat-icon>{{
+                  item.isExpanded ? "keyboard_arrow_down" : "keyboard_arrow_up"
+                }}</mat-icon>
+              </button>
+              <mat-icon
+                class="cursor"
+                *ngIf="item.isEditable"
+                (click)="disbaleEdit(i, false)"
+                >check_circle</mat-icon
+              >
+              <mat-icon
+                *ngIf="!item.isEditable"
+                (click)="disbaleEdit(i, true)"
+                style="margin-right: 15px"
+                class="cursor"
+                >edit</mat-icon
+              >
+              <mat-icon
+                style="margin-right: 15px"
+                class="cursor"
+                (click)="deleteBatch(i)"
+                >delete</mat-icon
+              >
+              <mat-icon
+                *ngIf="!item.isEditable"
+                style="margin-right: 15px"
+                class="cursor"
+                (click)="addProgram(i)"
+                >add</mat-icon
+              >
+            </td>
+            <td>
+              <mat-form-field
+                *ngIf="item.isEditable"
+                appearance="outline"
+                style="width: 35%"
+              >
+                <input
+                  matInput
+                  name="code"
+                  type="text"
+                  [(ngModel)]="item.batchCode"
+                
+                />
+              </mat-form-field>
+              <span *ngIf="!item.isEditable">{{ item.batchCode }}</span>
+            </td>
+            <td>
+              <mat-form-field
+                *ngIf="item.isEditable"
+                appearance="outline"
+                style="width: 35%"
+              >
+                <input matInput name="name" [(ngModel)]="item.batchName" />
+              </mat-form-field>
+              <span *ngIf="!item.isEditable">{{ item.batchName }}</span>
+            </td>
+            <td>
+              <mat-form-field
+                *ngIf="item.isEditable"
+                appearance="outline"
+                style="width: 35%"
+              >
+                <input
+                  matInput
+                  name="startDate"
+                  [(ngModel)]="item.batchStartdate"
+                  [matDatepicker]="picker"
+                />
+                <mat-datepicker-toggle
+                  matIconSuffix
+                  [for]="picker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+              <span *ngIf="!item.isEditable">{{ item.batchStartdate | date }}</span>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="4" *ngIf="item.isExpanded">
+              <table
+                *ngIf="item.program.length > 0"
+                style="background: #eff6ff"
+                class="table table-borderless"
+              >
+                <thead>
+                  <tr>
+                    <th scope="col">Action</th>
+                    <th scope="col">Code</th>
+                    <th scope="col">Program Name</th>
+                    <th scope="col">Students</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <ng-container
+                    *ngFor="let ele of item.program; let i1 = index"
+                  >
+                    <tr>
+                      <th>
+                        <mat-icon
+                          style="position: relative; top: 24px; left: 10px"
+                          class="cursor"
+                          *ngIf="ele.isEditable"
+                          (click)="disableEditForProgram(i, i1, false)"
+                          >check_circle</mat-icon
+                        >
+                        <mat-icon
+                          *ngIf="!ele.isEditable"
+                          style="margin-right: 15px"
+                          class="cursor"
+                          (click)="disableEditForProgram(i, i1, true)"
+                          >edit</mat-icon
+                        >
+                        <mat-icon
+                          *ngIf="!ele.isEditable"
+                          style="margin-right: 15px"
+                          class="cursor"
+                          (click)="deleteProgram(i, i1)"
+                          >delete</mat-icon
+                        >
+                        <mat-icon
+                          *ngIf="!ele.isEditable"
+                          style="margin-right: 15px"
+                          class="cursor"
+                          title="Click to add Course"
+                          (click)="addCourse(i)"
+                          >add</mat-icon
+                        >
+                      </th>
+                      <td>
+                        <mat-form-field
+                          *ngIf="ele.isEditable"
+                          appearance="outline"
+                          style="width: 35%"
+                        >
+                          <input
+                            matInput
+                            name="code"
+                            type="text"
+                            [(ngModel)]="ele.program_code"
+                          />
+                        </mat-form-field>
+                        <span *ngIf="!ele.isEditable">{{ ele. program_code }}</span>
+                      </td>
+                      <td>
+                        <mat-form-field
+                          *ngIf="ele.isEditable"
+                          appearance="outline"
+                        >
+                          <mat-select name="name" [(ngModel)]="ele.program_name">
+                            <mat-option *ngFor="let programs of program" [value]="this.item.program_name">{{programs.program_name}}</mat-option>
+                            
+                          </mat-select>
+                        </mat-form-field>
+                        <span *ngIf="!ele.isEditable">{{ ele.program_name }}</span>
+                      </td>
+                      <td>
+                        <mat-form-field
+                          *ngIf="ele.isEditable"
+                          appearance="outline"
+                        >
+                          <mat-select name="student" [(ngModel)]="ele.student">
+                            <mat-option [value]="this.item.student">{{ele.student}}</mat-option>
+                    
+                          </mat-select>
+                        </mat-form-field>
+                        <span *ngIf="!ele.isEditable">{{ ele.student }}</span>
+                      </td>
+                    </tr>
+                  </ng-container>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="4" *ngIf="item.isExpanded">
+              <table
+                *ngIf="item.course.length > 0"
+                class="table table-borderless"
+              >
+                <thead style="background: #e9e9e9">
+                  <tr>
+                    <th scope="col">Action</th>
+                    <th scope="col">Code</th>
+                    <th scope="col">Course Name</th>
+                    <th scope="col">Teacher</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <ng-container *ngFor="let ele of item.course; let i1 = index">
+                    <tr>
+                      <th>
+                        <mat-icon
+                          style="position: relative; top: 24px; left: 10px"
+                          class="cursor"
+                          *ngIf="ele.isEditable"
+                          (click)="disableEditForCourse(i, i1, false)"
+                          >check_circle</mat-icon
+                        >
+                        <mat-icon
+                          *ngIf="!ele.isEditable"
+                          style="margin-right: 15px"
+                          class="cursor"
+                          (click)="disableEditForCourse(i, i1, true)"
+                          >edit</mat-icon
+                        >
+                        <mat-icon
+                          *ngIf="!ele.isEditable"
+                          style="margin-right: 15px"
+                          class="cursor"
+                          (click)="deleteCourse(i, i1)"
+                          >delete</mat-icon
+                        >
+                        <mat-icon
+                          *ngIf="!ele.isEditable"
+                          style="margin-right: 15px"
+                          class="cursor"
+                          >add</mat-icon
+                        >
+                      </th>
+                      <td>
+                        <mat-form-field
+                          *ngIf="ele.isEditable"
+                          appearance="outline"
+                          style="width: 35%"
+                        >
+                          <input
+                            matInput
+                            name="code"
+                            type="text"
+                            [(ngModel)]="ele.code"
+                          />
+                        </mat-form-field>
+                        <span *ngIf="!ele.isEditable">{{ ele.code }}</span>
+                      </td>
+                      <td>
+                        <mat-form-field
+                          *ngIf="ele.isEditable"
+                          appearance="outline"
+                        >
+                          <mat-select name="name" [(ngModel)]="ele.course_name">
+                            <mat-option [value]="this.ele.course_name">{{ele.course_name}}</mat-option>
+                            
+                            >
+                          </mat-select>
+                        </mat-form-field>
+                        <span *ngIf="!ele.isEditable">{{ ele.course_name }}</span>
+                      </td>
+                      <td>
+                        <mat-form-field
+                          *ngIf="ele.isEditable"
+                          appearance="outline"
+                        >
+                          <mat-select name="teacher" [(ngModel)]="ele.teacher">
+                            <mat-option [value]="this.ele.teacher">{{ele.teacher}}</mat-option>
+                            
+                          </mat-select>
+                        </mat-form-field>
+                        <span *ngIf="!ele.isEditable">{{ ele.teacher }}</span>
+                      </td>
+                    </tr>
+                  </ng-container>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+    <mat-paginator
+      [length]="batch.length"
+      [pageSize]="'5'"
+      (page)="page($event)"
+      [pageSizeOptions]="[5, 10, 15]"
+      showFirstLastButtons
+    >
+    </mat-paginator>
+  </mat-card>
+</div>

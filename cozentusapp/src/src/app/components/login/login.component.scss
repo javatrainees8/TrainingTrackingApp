@@ -1,0 +1,28 @@
+.bg {
+  /* The image used */
+  background-image: url("../../../assets//images/login-bg.jpg");
+
+  /* Full height */
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  mat-card {
+  padding: 0px 54px 65px 54px;
+    background: #252849;
+    mat-form-field {
+      background: #13120e;
+      height: 55px;
+      color: #fff;
+    }
+    mat-label {
+      color: #fff;
+    }
+  }
+}
+
+

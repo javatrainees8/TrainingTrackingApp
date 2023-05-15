@@ -1,0 +1,28 @@
+.section{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.example-container {
+  max-height: 400px;
+  max-width: 100%;
+  overflow: auto;
+}
+mat-form-field{
+  margin-top: 10px;
+}
+.header{
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+    margin-left: 20px;
+    background: #F2F9FF;
+    padding: 20px 0px 0px 10px;
+}
+.inner{
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  justify-content: flex-end;
+    margin-left: 20px;
+}

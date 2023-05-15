@@ -1,0 +1,21 @@
+mat-toolbar{
+  background: #2E3D54;
+}
+.circle{
+    top: 75px;
+    background: red;
+    height: 34px;
+    width: 34px;
+    border-radius: 50%;
+    display: flex;
+    justify-content:center;
+}
+mat-icon{
+  font-size: 12px;
+  position: relative;
+  left: 10px;
+  top: 10px;
+}
+span{
+  cursor: pointer;
+}

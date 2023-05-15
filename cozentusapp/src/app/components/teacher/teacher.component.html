@@ -1,0 +1,192 @@
+<div >
+  <app-layout></app-layout>
+</div>
+<div
+  class="mat-elevation-z8"
+  style="background: hsl(208, 52%, 94%); height: 89vh; padding: 20px"
+>
+  <h3>Teacher</h3>
+  <mat-card class="parent">
+    <div class="section">
+      <mat-form-field
+        style="width: 10%; margin-top: 20px; margin-left: 11px"
+        appearance="outline"
+      >
+        <mat-label>Filter</mat-label>
+        <input matInput (keyup)="applyFilter($event)" #input />
+      </mat-form-field>
+      <button
+        mat-raised-button
+        [disabled]="buttonDisable"
+        (click)="AddNewRow()"
+        style="border: 1px solid #000;margin-right: 10px;"
+      >
+        Add Teacher
+      </button>
+    </div>
+    <form class="example-container" [formGroup]="VOForm" autocomplete="off">
+      <ng-container formArrayName="VORows">
+        <table
+          #table
+          mat-table
+          [dataSource]="dataSource"
+          class="mat-elevation-z8"
+        >
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Teacher Name</th>
+            <td
+              mat-cell
+              *matCellDef="let element; let i = index"
+              [formGroup]="element"
+            >
+              <mat-form-field
+                style="width: 150px"
+                [appearance]="
+                  VOForm.get('VORows')?.value[i].isEditable
+                    ? 'outline'
+                    : 'outline'
+                "
+                *ngIf="!VOForm.get('VORows')?.value[i].isEditable"
+              >
+                <input
+                  matInput
+                  type="text"
+                  formControlName="teacherName"
+                  [readonly]="VOForm.get('VORows')?.value[i].isEditable"
+                  
+                 (click)="getCourses()"
+                />
+              </mat-form-field>
+              <span *ngIf="VOForm.get('VORows')?.value[i].isEditable">{{
+                VOForm.get("VORows")?.value[i].teacherName
+              }}</span>
+
+            </td>
+          </ng-container>
+
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="courseAssigned">
+            <th mat-header-cell *matHeaderCellDef>Course Assigned</th>
+            <td
+              mat-cell
+              *matCellDef="let element; let i = index"
+              [formGroup]="element"
+            >
+              <mat-form-field
+                style="width: 250px"
+                [appearance]="
+                  VOForm.get('VORows')?.value[i].isEditable
+                    ? 'outline'
+                    : 'outline'
+                "
+              >
+                <mat-select
+                [disabled]="
+                VOForm.get('VORows')?.value[i].isEditable
+                  ? true
+                  :false"
+                
+                 (selectionChange)="getSelectedCourses($event)"
+                 multiple>
+                  <mat-option [value]="course" *ngFor="let course of courses">{{course.courseName}}</mat-option>
+                  
+                </mat-select>
+              </mat-form-field>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef>Email</th>
+            <td
+              mat-cell
+              *matCellDef="let element; let i = index"
+              [formGroup]="element"
+            >
+              <!-- <span [hidden]="VOForm.get('VORows').value[i].isEditable"> -->
+              <mat-form-field
+                style="width: 150px"
+                [appearance]="
+                  VOForm.get('VORows')?.value[i].isEditable
+                    ? 'outline'
+                    : 'outline'
+                "
+                *ngIf="!VOForm.get('VORows')?.value[i].isEditable"
+              >
+                <input
+                  matInput
+                  type="text"
+                  formControlName="teacherEmail"
+                  [readonly]="VOForm.get('VORows')?.value[i].isEditable"
+                />
+              </mat-form-field>
+              <span *ngIf="VOForm.get('VORows')?.value[i].isEditable">{{
+                VOForm.get("VORows")?.value[i].teacherEmail
+              }}</span>
+
+              <!-- </span> -->
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef>Action</th>
+            <td
+              mat-cell
+              *matCellDef="let element; let i = index"
+              [formGroup]="element"
+            >
+              <button
+                mat-icon-button
+                class="material-icons app-toolbar-menu save-button"
+                matTooltip="Save Changes"
+                (click)="SaveVO(VOForm, i)"
+                *ngIf="!VOForm.get('VORows')?.value[i].isEditable"
+                color="primary"
+              >
+                <mat-icon>check_circle</mat-icon>
+              </button>
+
+              <button
+                mat-icon-button
+                class="material-icons app-toolbar-menu cancel-button"
+                matTooltip="Cancel Changes"
+                color="warn"
+                (click)="CancelSVO(VOForm, i)"
+                *ngIf="!VOForm.get('VORows')?.value[i].isEditable"
+              >
+                <mat-icon>cancel</mat-icon>
+              </button>
+
+              <button
+                mat-icon-button
+                class="material-icons app-toolbar-menu save-button"
+                *ngIf="VOForm.get('VORows')?.value[i].isEditable"
+                matTooltip="Edit"
+                color="primary"
+                (click)="EditSVO(VOForm, i)"
+              >
+                <mat-icon>edit</mat-icon>
+              </button>
+
+              <button
+                mat-icon-button
+                class="material-icons app-toolbar-menu delete-button"
+                *ngIf="VOForm.get('VORows')?.value[i].isEditable"
+                (click)="deleteRow(i)"
+                matTooltip="Delete"
+                color="warn"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+          <!-- Row shown when there is no matching data. -->
+        </table>
+      </ng-container>
+    </form>
+    <mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons>
+    </mat-paginator>
+  </mat-card>
+</div>

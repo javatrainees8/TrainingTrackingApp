@@ -1,0 +1,103 @@
+<div>
+    <div class="header">
+      <mat-form-field appearance="outline" style="margin-right: 20px">
+      <mat-select [(ngModel)]="batchNameAndCode" name="batchNameAndCode" (ngModelChange)="batchStartdate
+      = getBatchStartDate(batchNameAndCode)">
+        <mat-option *ngFor="let batchs of batch" [value]="batchs.batchName + '-' + batchs.batchCode">
+          {{batchs.batchName}}:{{batchs.batchCode}}
+        </mat-option>
+      </mat-select>
+      </mat-form-field>
+    <mat-form-field appearance="outline" style="margin-left: 20px">
+      <input matInput [disabled]="true" placeholder="Batch Start Date" [value]="batchStartdate
+      ?.toString()" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-select name="fieldValue2" [(ngModel)]="fieldValue2" [disabled]="!batchNameAndCode">
+        <mat-option *ngFor="let programs of program" [value]="programs.programName
+        + '-' + programs.programCode
+        ">
+          {{programs.programName}}:{{programs.programCode}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <form [formGroup]="VOForm" autocomplete="off">
+    <ng-container formArrayName="VORows">
+      <table
+        #table
+        mat-table
+        [dataSource]="dataSource"
+        class="mat-elevation-z8"
+      >
+        <ng-container matColumnDef="code">
+          <th mat-header-cell *matHeaderCellDef>Order</th>
+          <td
+            mat-cell
+            *matCellDef="let element; let i = index"
+            [formGroup]="element"
+            formControlName="code"
+          >
+            <span>{{ VOForm.get("VORows")?.value[i].code}}</span>
+          </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Course Name</th>
+          <td
+            mat-cell
+            *matCellDef="let element; let i = index"
+            [formGroup]="element"
+            formControlName="name"
+          >
+            <span>{{ VOForm.get("VORows")?.value[i].name}}</span>
+          </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="inProgress">
+          <th mat-header-cell *matHeaderCellDef>Topic in Progress</th>
+          <td
+            mat-cell
+            *matCellDef="let element; let i = index"
+            [formGroup]="element"
+            formControlName="inprogres"
+          >
+            <span>{{ VOForm.get("VORows")?.value[i].inprogres}}</span>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="completed">
+          <th mat-header-cell *matHeaderCellDef>Topic Completed</th>
+          <td
+            mat-cell
+            *matCellDef="let element; let i = index"
+            [formGroup]="element"
+            formControlName="completedTopics"
+          >
+            <span>{{ VOForm.get("VORows")?.value[i].completedTopics}}</span>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="courseCompletionProgress">
+          <th mat-header-cell *matHeaderCellDef>
+            Course Completion Percentage
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let element; let i = index"
+            [formGroup]="element"
+            formControlName="courseCompletionProgress"
+          >
+            <span>{{
+              VOForm.get("VORows")?.value[i].courseCompletionProgress
+            }}</span>
+          </td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  
+        <!-- Row shown when there is no matching data. -->
+      </table>
+    </ng-container>
+  </form>
+  <mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator>
+</div>

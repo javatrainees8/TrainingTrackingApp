@@ -1,0 +1,45 @@
+<div class="body">
+    <div class="container">
+        <div class="alert-right" [ngClass]="{ 'alert-success': loginSuccess, 'alert-danger': loginError }" *ngIf="loginSuccess || loginError">
+            <span>{{ loginSuccess ? 'Welcome Admin!' : 'Invalid username or password.' }}</span>
+          </div>
+          <div class="alert-right" [ngClass]="{ 'alert-success': teacherLoginSuccess, 'alert-danger': teacherLoginError }" *ngIf="teacherLoginSuccess || teacherLoginError">
+              <span>{{ teacherLoginSuccess ? 'Welcome Teacher!' : 'Invalid username or password.' }}</span>
+            </div>
+        <mat-card class="card">
+            <div class="form">                
+                <div class="logo"></div>
+                <img src="../../../assets/images/logo.png" style="height: 25px;" />
+                <div>
+                    <form  (ngSubmit)="OnSubmit()">
+                        <div class="input-text">
+                            <span class="input-icon">
+                                <mat-icon class="person-icon" fontIcon="person"></mat-icon>
+                                <input [(ngModel)]="profileForm.username" name="username" matInput type="text" id="username" placeholder="Username" class="input-intext"
+                                    >
+                            </span>
+                          </div>
+  
+                        <div class="input-text">
+                            <span class="input-icon">
+                                <button class="password-icon" mat-icon-button matSuffix (click)="hide = !hide"
+                                    [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                                </button>
+                                <input [(ngModel)]="profileForm.password" name="username" matInput type="password" id="password" placeholder="Password"
+                                    class="input-intext" >
+                            </span>
+                        </div>
+                        <mat-checkbox class="keep-login" color="primary">
+                            <span class="cb-label">Keep me signed in</span>
+                        </mat-checkbox>
+  
+                        <button mat-raised-button color="primary" type="submit" class="btn">Login</button>
+                    </form>
+                     {{profileForm | json}}
+                </div>
+            </div>
+            
+        </mat-card>
+    </div>
+  </div>

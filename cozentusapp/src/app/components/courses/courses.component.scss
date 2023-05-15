@@ -1,0 +1,13 @@
+.section{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+mat-form-field{
+  margin-top: 10px;
+}
+.example-container {
+  max-height: 400px;
+  max-width: 100%;
+  overflow: auto;
+}

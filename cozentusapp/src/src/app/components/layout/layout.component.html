@@ -1,0 +1,59 @@
+<mat-toolbar style="display: flex; flex-direction: column; height: 80px">
+  <div
+    style="
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      align-items: center;
+    "
+  >
+    <img
+      style="height: 70px; width: 150px"
+      src="../../../assets/images/Clogo.png"
+    />
+    <div>
+      <div class="circle cursor" [matMenuTriggerFor]="menu">
+        <p style="color: #fff; font-size: 14px">RS</p>
+      </div>
+    </div>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item routerLink="/login">
+        <mat-icon>logout</mat-icon>
+        <span>Logout</span>
+      </button>
+    </mat-menu>
+  </div>
+  <div
+    style="
+      position: relative;
+      bottom: 20px;
+      display: flex;
+      color: #fff;
+      font-size: 12px;
+      width: 100%;
+      cursor: pointer;
+    "
+  >
+    <span [matMenuTriggerFor]="menu1" style="display: flex; margin-right: 15px">
+      <mat-icon>book</mat-icon>
+      <p>Courses</p>
+    </span>
+    <mat-menu #menu1="matMenu">
+      <button mat-menu-item routerLink="/courses">Courses</button>
+      <button mat-menu-item routerLink="/program">Program</button>
+    </mat-menu>
+
+    <span style="display: flex; margin-right: 15px" routerLink="/batch">
+      <mat-icon>supervisor_account</mat-icon>
+      <p>Batch</p>
+    </span>
+    <span style="display: flex; margin-right: 15px" routerLink="/teacher">
+      <mat-icon>supervisor_account</mat-icon>
+      <p>Teachers</p>
+    </span>
+    <span style="display: flex" routerLink="/students">
+      <mat-icon>supervisor_account</mat-icon>
+      <p>Students</p>
+    </span>
+  </div>
+</mat-toolbar>

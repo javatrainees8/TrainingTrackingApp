@@ -1,0 +1,105 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable, tap } from 'rxjs';
+import { CommonService } from 'src/app/services/common.service';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class LoginserviceService {
+  private apiUrl = 'http://localhost:5555';
+  private tokenKey = 'jwt_token'; // Key for storing JWT token in local storage
+  private roleKey = 'user_role'; // Key for storing user role in local storage
+
+  constructor(private http: HttpClient) {}
+
+  login(username: string, password: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/authenticate`, { username, password }).pipe(
+      tap(response => {
+        const token = response.token;
+        const role = response.role;
+        this.setToken(token);
+        this.setRole(role);
+      })
+    );
+  }
+
+
+  /*getLoggedInUser(): Observable<any> {
+    const myToken=localStorage.getItem("token");
+    
+    console.log("myToken: ", myToken);
+    var user_role =
+    {
+  
+      "Admin":localStorage.getItem("role")
+    
+    };
+    
+    const header = new HttpHeaders({
+
+      
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${myToken}`
+    })
+    return this.http.post(this.apiUrl+"/authenticate",user_role, { headers: header })
+  }*/
+
+
+
+  /*getUserProfessionDetails(userId:any): Observable<any>
+{
+  const myToken=localStorage.getItem("jwt_token");
+    
+    
+    
+    const header = new HttpHeaders({
+
+      
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${myToken}`
+    })
+    return this.http.get(this.apiUrl+"userprofessiondetails/"+userId, { headers: header })
+
+  
+
+}*/
+
+  logout(): void {
+    localStorage.removeItem(this.tokenKey);
+    localStorage.removeItem(this.roleKey);
+  }
+
+  isLoggedIn(): boolean {
+    const token = this.getToken();
+    return token !== null;
+  }
+
+  getToken(): any {
+    return localStorage.getItem(this.tokenKey);
+  }
+
+  setToken(token:any): void {
+    localStorage.setItem(this.tokenKey, token);
+  }
+
+  getRole(): any {
+    return localStorage.getItem(this.roleKey);
+  }
+
+  setRole(role: string): void {
+    localStorage.setItem(this.roleKey, role);
+  }
+
+  isAdmin(): boolean {
+    const role = this.getRole();
+    return role === 'admin';
+  }
+
+  isTeacher(): boolean {
+    const role = this.getRole();
+    return role === 'teacher';
+  }
+}
+  
+

@@ -1,0 +1,10 @@
+.section{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.example-container {
+  max-height: 400px;
+  max-width: 100%;
+  overflow: auto;
+}

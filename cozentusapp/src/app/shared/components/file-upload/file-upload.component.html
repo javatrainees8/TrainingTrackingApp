@@ -1,0 +1,20 @@
+<h1 mat-dialog-title>Upload File</h1>
+<div mat-dialog-content>
+<div class="upload" appDragDrop (filesChangeEmiter)="filesChangeEmiter($event)">
+ <span>Drag or Drop your files or <a  (click)="fileInput.click()">Upload</a></span>
+ <input type="file" name="file" style="display: none;" #fileInput (change)="onFileChange($event)">
+</div>
+<strong style="margin: 10px;">(Supported format:pdf,xls,ppt,audio,video (Max size 2 MB)</strong>
+</div>
+<div class="files" *ngIf="files.length>0">
+  <h3>File</h3>
+  <div style="display: flex;align-items: center;" *ngFor="let file of files;let i=index">
+    <p style="margin-right: 20px;">{{i+1}}</p>
+    <p style="margin-right: 20px;">{{file.name}}</p>
+    <mat-icon (click)="removeFile(i)">delete</mat-icon>
+  </div>
+</div>
+<div mat-dialog-actions style="display: flex;justify-content: end;">
+  <button mat-raised-button color="primary" (click)="uploadFiles()" >Save</button>
+  <button mat-raised-button mat-dialog-close>Close</button>
+</div>

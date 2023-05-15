@@ -1,0 +1,23 @@
+<div class="bg">
+  <mat-card>
+    <a class="logo"></a>
+    <img src="../../../assets/images/Clogo.png" style="height: 155px;" />
+    <mat-form-field appearance="outline" style="margin-bottom: 10px">
+      <mat-label>UserName</mat-label>
+      <input matInput />
+      <mat-icon matSuffix>add</mat-icon>
+    </mat-form-field>
+    <mat-form-field appearance="outline" style="margin-bottom: 10px">
+      <mat-label>Password</mat-label>
+      <input matInput />
+      <mat-icon matSuffix>visibility_off</mat-icon>
+    </mat-form-field>
+    <div style="display: flex; align-items: center">
+      <input type="checkbox" />
+      <p style="position: relative; top: 5px; left: 5px; color: #fff">
+        Keep me signed in
+      </p>
+    </div>
+    <button routerLink="/courses" mat-raised-button color="primary">Login</button>
+  </mat-card>
+</div>

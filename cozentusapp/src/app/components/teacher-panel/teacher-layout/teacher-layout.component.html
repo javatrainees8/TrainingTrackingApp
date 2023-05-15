@@ -1,0 +1,58 @@
+<mat-toolbar style="display: flex; flex-direction: column; height: 70px">
+  <div
+    style="
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      align-items: center;
+    "
+  >
+    <img
+      style="height: 40px; width: 200px"
+      src="../../../assets/images/logo.png"
+    />
+    <div>
+      <div class="circle cursor" [matMenuTriggerFor]="menu">
+        <p style="color: #fff; font-size: 14px">AK</p>
+      </div>
+    </div>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item routerLink="/login">
+        <mat-icon>logout</mat-icon>
+        <span>Logout</span>
+      </button>
+      <button mat-menu-item routerLink="/login">
+        <mat-icon>logout</mat-icon>
+        <span>Change password</span>
+      </button>
+    </mat-menu>
+  </div>
+  <div
+    style="
+      position: relative;
+      bottom: 0px;
+      display: flex;
+      color: #fff;
+      font-size: 12px;
+      width: 100%;
+      cursor: pointer;
+    "
+  >
+    <span style="display: flex; margin-right: 15px" routerLink="/teacher-panel">
+      <mat-icon>home</mat-icon>
+      <p>Home</p>
+    </span>
+    <span style="display: flex; margin-right: 15px" routerLink="/teacher-panel/exams">
+      <mat-icon>assessment</mat-icon>
+      <p>Exams</p>
+    </span>
+    <span style="display: flex" routerLink="/teacher-panel/assigment" >
+      <mat-icon>assignment_return</mat-icon>
+      <p>Assisgment</p>
+    </span>
+    <span style="display: flex" >
+      <mat-icon>report</mat-icon>
+      <p>Reports</p>
+    </span>
+  </div>
+</mat-toolbar>

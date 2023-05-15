@@ -1,0 +1,351 @@
+<div>
+  <app-teacher-layout></app-teacher-layout>
+</div>
+<div
+  class="mat-elevation-z8"
+  style="background: hsl(208, 52%, 94%); height: 89vh; padding: 20px"
+>
+  <h3>Assignment</h3>
+  <mat-card class="parent">
+    <div>
+      <h3 style="margin: 20px;">Please Select the options to get below result</h3>
+      <div class="header">
+        <mat-form-field appearance="outline" style="margin-right: 20px">
+          <mat-select [(ngModel)]="batchNameAndCode"  name="batchNameAndCode" (ngModelChange)= "batchStartdate=getBatchStartDate(batchNameAndCode)" >
+            <mat-option value="Batch 4" *ngFor="let batch of batches" [value]="batch.batchCode + '-' + batch.batchName">{{batch.batchCode}}:{{batch.batchName}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" style="margin-right: 20px">
+          <input matInput name="value" [value]= "batchStartdate?.toString()"  [disabled]= "true" />
+        </mat-form-field>
+        <mat-form-field appearance="outline" style="margin-right: 20px">
+          <mat-label>Program Code,Program Name</mat-label>
+          <mat-select name="fieldValue2" [(ngModel)]="ProgramNameAndCode" name="ProgramNameAndCode" [disabled]="!batchNameAndCode">
+            <mat-option value="Web Development" *ngFor="let program of programs">{{program.program_name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" style="margin-right: 20px">
+          <mat-label>Course Code,Course Name</mat-label>
+    
+          <mat-select name="fieldValue2" [(ngModel)]="fieldValue2" [disabled]="!ProgramNameAndCode">
+            <mat-option value="Course" *ngFor="let course of courses">{{course.course_name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="inner">
+        <mat-form-field appearance="outline">
+          <mat-label>Select Date</mat-label>
+          <input
+            matInput
+            name="startDate"
+            [(ngModel)]="startDate"
+            [matDatepicker]="picker1"
+          />
+          <mat-datepicker-toggle
+            matIconSuffix
+            [for]="picker1"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+        <button
+          mat-raised-button
+          (click)="AddNewRow()"
+          [disabled]="buttonDisable"
+          style="border: 1px solid #000; margin-right: 10px"
+        >
+          Add Assignment
+        </button>
+      </div>
+      <form class="example-container" [formGroup]="VOForm" autocomplete="off">
+        <ng-container formArrayName="VORows">
+          <table
+            #table
+            mat-table
+            [dataSource]="dataSource"
+            class="mat-elevation-z8"
+          >
+            <!-- Name Column -->
+            <ng-container matColumnDef="code">
+              <th mat-header-cell *matHeaderCellDef>Total Marks</th>
+              <td
+                mat-cell
+                *matCellDef="let element; let i = index"
+                [formGroup]="element"
+              >
+                <mat-form-field
+                  style="width: 150px; margin-top: 15px"
+                  [appearance]="
+                    VOForm.get('VORows')?.value[i].isEditable
+                      ? 'outline'
+                      : 'outline'
+                  "
+                  *ngIf="!VOForm.get('VORows')?.value[i].isEditable"
+                >
+                  <input
+                    matInput
+                    type="number"
+                    formControlName="code"
+                    [readonly]="VOForm.get('VORows')?.value[i].isEditable"
+                  />
+                </mat-form-field>
+                <span *ngIf="VOForm.get('VORows')?.value[i].isEditable">{{
+                  VOForm.get("VORows")?.value[i].code
+                }}</span>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef>Assigment Name</th>
+              <td
+                mat-cell
+                *matCellDef="let element; let i = index"
+                [formGroup]="element"
+              >
+                <mat-form-field
+                  style="width: 150px; margin-top: 15px"
+                  [appearance]="
+                    VOForm.get('VORows')?.value[i].isEditable
+                      ? 'outline'
+                      : 'outline'
+                  "
+                  *ngIf="!VOForm.get('VORows')?.value[i].isEditable"
+                >
+                  <input
+                    matInput
+                    type="text"
+                    formControlName="name"
+                    [readonly]="VOForm.get('VORows')?.value[i].isEditable"
+                  />
+                </mat-form-field>
+                <span *ngIf="VOForm.get('VORows')?.value[i].isEditable">{{
+                  VOForm.get("VORows")?.value[i].name
+                }}</span>
+              </td>
+            </ng-container>
+
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="time">
+              <th mat-header-cell *matHeaderCellDef>Time</th>
+              <td
+                mat-cell
+                *matCellDef="let element; let i = index"
+                [formGroup]="element"
+              >
+                <mat-form-field
+                  style="width: 150px; margin-top: 15px"
+                  [appearance]="
+                    VOForm.get('VORows')?.value[i].isEditable
+                      ? 'outline'
+                      : 'outline'
+                  "
+                  *ngIf="!VOForm.get('VORows')?.value[i].isEditable"
+                >
+                  <input
+                    matInput
+                    type="text"
+                    formControlName="time"
+                    [readonly]="VOForm.get('VORows')?.value[i].isEditable"
+                  />
+                </mat-form-field>
+                <!-- </span> -->
+                <span *ngIf="VOForm.get('VORows')?.value[i].isEditable">{{
+                  VOForm.get("VORows")?.value[i].time
+                }}</span>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="date">
+              <th mat-header-cell *matHeaderCellDef>Date</th>
+              <td
+                mat-cell
+                *matCellDef="let element; let i = index"
+                [formGroup]="element"
+              >
+                <mat-form-field
+                  style="width: 150px; margin-top: 15px"
+                  [appearance]="
+                    VOForm.get('VORows')?.value[i].isEditable
+                      ? 'outline'
+                      : 'outline'
+                  "
+                  *ngIf="!VOForm.get('VORows')?.value[i].isEditable"
+                >
+                  <input matInput   formControlName="date" [matDatepicker]="picker">
+                  <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+                <span *ngIf="VOForm.get('VORows')?.value[i].isEditable">{{
+                  VOForm.get("VORows")?.value[i].date |date
+                }}</span>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="description">
+              <th mat-header-cell *matHeaderCellDef>Summary</th>
+              <td
+                mat-cell
+                *matCellDef="let element; let i = index"
+                [formGroup]="element"
+              >
+                <a
+                  (click)="editDescription(VOForm, i, 'description')"
+                  style="text-decoration: underline; cursor: pointer"
+                  *ngIf="!VOForm.get('VORows')?.value[i].isEditable"
+                  >{{
+                    VOForm.get("VORows")?.value[i].description || "Add Summary"
+                  }}</a
+                >
+                <a
+                  (click)="editDescription(VOForm, i, 'description')"
+                  style="text-decoration: underline; cursor: pointer"
+                  *ngIf="VOForm.get('VORows')?.value[i].isEditable"
+                  >{{ VOForm.get("VORows")?.value[i].description }}</a
+                >
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="topics">
+              <th mat-header-cell *matHeaderCellDef>Content</th>
+              <td
+                mat-cell
+                *matCellDef="let element; let i = index"
+                [formGroup]="element"
+              >
+                <a
+                  style="text-decoration: underline; cursor: pointer"
+                  (click)="editDescription(VOForm, i, 'topics')"
+                  *ngIf="!VOForm.get('VORows')?.value[i].isEditable"
+                  >{{
+                    VOForm.get("VORows")?.value[i].topics || "Add Topics"
+                  }}</a
+                >
+                <a
+                  style="text-decoration: underline; cursor: pointer"
+                  (click)="editDescription(VOForm, i, 'topics')"
+                  *ngIf="VOForm.get('VORows')?.value[i].isEditable"
+                  >{{ VOForm.get("VORows")?.value[i].topics }}</a
+                >
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="file">
+              <th mat-header-cell *matHeaderCellDef>Files</th>
+              <td
+                mat-cell
+                *matCellDef="let element; let i = index"
+                [formGroup]="element"
+              >
+                <mat-icon
+                  style="text-decoration: underline; cursor: pointer"
+                  (click)="uploadFile()"
+                  *ngIf="!VOForm.get('VORows')?.value[i].isEditable"
+                  >upload</mat-icon
+                >
+                <mat-icon
+                  style="text-decoration: underline; cursor: pointer"
+                  (click)="uploadFile()"
+                  *ngIf="VOForm.get('VORows')?.value[i].isEditable"
+                  >upload</mat-icon
+                >
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="action">
+              <th mat-header-cell *matHeaderCellDef>Action</th>
+              <td
+                mat-cell
+                *matCellDef="let element; let i = index"
+                [formGroup]="element"
+              >
+                <button
+                  mat-icon-button
+                  class="material-icons app-toolbar-menu save-button"
+                  matTooltip="Save Changes"
+                  (click)="SaveVO(VOForm, i)"
+                  *ngIf="!VOForm.get('VORows')?.value[i].isEditable"
+                  color="primary"
+                >
+                  <mat-icon>check_circle</mat-icon>
+                </button>
+
+                <button
+                  mat-icon-button
+                  class="material-icons app-toolbar-menu cancel-button"
+                  matTooltip="Cancel Changes"
+                  color="warn"
+                  (click)="CancelSVO(VOForm, i)"
+                  *ngIf="!VOForm.get('VORows')?.value[i].isEditable"
+                >
+                  <mat-icon>cancel</mat-icon>
+                </button>
+
+                <button
+                  mat-icon-button
+                  class="material-icons app-toolbar-menu save-button"
+                  *ngIf="VOForm.get('VORows')?.value[i].isEditable"
+                  matTooltip="Edit"
+                  color="primary"
+                  (click)="EditSVO(VOForm, i)"
+                >
+                  <mat-icon>edit</mat-icon>
+                </button>
+
+                <button
+                  mat-icon-button
+                  class="material-icons app-toolbar-menu delete-button"
+                  *ngIf="VOForm.get('VORows')?.value[i].isEditable"
+                  (click)="deleteRow(i)"
+                  matTooltip="Delete"
+                  color="warn"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+                <a (click)="showList(true)"    *ngIf="VOForm.get('VORows')?.value[i].isEditable">Marks Students</a>
+
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+            <!-- Row shown when there is no matching data. -->
+          </table>
+
+        </ng-container>
+        <table *ngIf="showStudentList" class="table table-borderless">
+          <thead style="background: #f3f3f3">
+            <tr>
+              <th scope="col">Student</th>
+              <th scope="col" colspan="1">Attendance</th>
+              <th colspan="6">
+                <a  style="margin-right: 20px;" (click)="showList(false)">Cancel</a>
+                <button
+                type="button"
+                (click)="showList(false)"
+                  mat-raised-button
+                  style="border: 1px solid #000; margin-right: 10px"
+                >
+                  Save & Close
+                </button>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let student of studentList">
+              <td>{{ student.name }}</td>
+              <td colspan="1">
+                <input
+                  style="width: 10%"
+                  class="form-control"
+                  name="marks"
+                  [ngModelOptions]="{standalone: true}"
+                  [(ngModel)]="student.marks"
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </form>
+      <mat-paginator [pageSizeOptions]="[2, 4, 6,8,10]" showFirstLastButtons>
+      </mat-paginator>
+
+    </div>
+  </mat-card>
+</div>
